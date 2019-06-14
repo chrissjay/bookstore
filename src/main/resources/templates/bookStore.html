@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>书籍·良品</title>
+    <link rel="stylesheet" type="text/css" href="../static/statics/css/book.css" th:href="@{/statics/css/book.css}">
+</head>
+<body>
+<!-- 导航 -->
+<header>
+    <nav class="navbar">
+        <div class="nav-info">
+            <a class="userName">
+                您好：<span th:text="${user.getUserName()}">名字</span>
+            </a>
+            <a href="#" th:href="@{/myBookshelf}" class="bookshelf">    我的书架    </a>
+            <a href="#" th:href="@{/logout}" class="logout">[ 退 出 ]</a>
+        </div> <!-- nav-info -->
+        <form action="searchBook" th:action="@{/searchBook}" method="post">
+            <div class="nav-search">
+                <a href="/home" th:href="@{/home}"><img class="logo" src="../static/statics/img/zju.png" th:src="@{/statics/img/zju.png}"></a>
+                <div class="search-form">
+                    <input id="search-input" name="name" type="search" class="searchIn" placeholder="搜图书...">
+                    <a href="#" class="search-logo">| &nbsp;<img src="../static/statics/img/search.png" th:src="@{/statics/img/search.png}"></a>
+                    <button type="submit" id="search-button" class="searchBtn">搜索</button>
+                </div>
+            </div><!--  nav-search -->
+        </form>
+        <ul class="menu">
+            <li><a class="active" href="/home" th:href="@{/home}">首页</a></li>
+            <li><a href="/bookStore" th:href="@{/bookStore/1/1}">书籍良品</a></li>
+            <li><a href="/askBookStore" th:href="@{/askBookStore}">求书区</a></li>
+            <li><a href="#">服务区</a></li>
+        </ul>
+    </nav>
+    <div class="bookstore-pic"></div>
+</header>
+<!-- 图书分类 -->
+<div id="container">
+    <div id="book-menu">
+        <ul class="book-class">
+            <li th:each="cate: ${categories}">
+                <a href="goBookStore.do?id=${cate.key}" th:href="@{'/bookStore/'+${cate.getId()}+'/1'}" th:text="${cate.getName()}">${cate.value}</a>
+            </li>
+        </ul>
+    </div>
+    <div id="book-menu-toggle">
+        查 看 菜 单
+        <div id="toggle-btn"></div>
+    </div>
+    <div id="book-container">
+        <h3 class="book-title"><a href="#" th:text="${category.getName()}">| ${categoryName}</a></h3>
+
+        <ul class="book-lists">
+            <li class="book-list" th:each="book : ${books}">
+                <a href="/bookDetail.do?id=${book.getId()}" th:href="'/bookDetail/'+${book.getId()}" class="book-pic" target="_blank">
+                    <img src="../static/statics/img/book-list/article/${book.getBookimage().getId()}.jpg"
+                    th:src="@{'/statics/img/book-list/article/' + ${book.getId()} +'.jpg'}">
+                </a>
+                <a href="#" class="book-info">
+                    <h5 class="book-name" th:text="${book.getName()}">${book.getName()}</h5>
+                    <span class="book-detail" th:text="${book.getDescription()}">${book.getDescription()}</span>
+                </a>
+                <span class="book-price" th:text="${book.getPrice()} + '¥'">￥${book.getPrice()}
+						<a href="#" class="book-buy">立即下单</a>
+                </span>
+            </li>
+        </ul><!--  book-list end -->
+
+    </div> <!-- book-container end-->
+    <span class="page-btn">
+			<a href="?start=0" class="page-top">首页</a>
+			<a href="?start=${page.getStart()-page.getCount()}" th:href="@{'/bookStore/'+${category.getId()}+'/'+${pageid-1}}" class="page-pre">上一页</a>
+			<a href="?start=${page.getStart()+page.getCount()}" th:href="@{'/bookStore/'+${category.getId()}+'/'+${pageid+1}}" class="page-next">下一页</a>
+			<a href="?start=${page.getEnd()}" class="page-end">尾页</a>
+    </span>
+</div><!-- container end-->
+<footer>
+    <a href="#">©2018-2019 二手书交易</a>
+    <a href="#">意见反馈&nbsp;&nbsp;&nbsp;联系我们&nbsp;&nbsp;&nbsp;隐私权声明&nbsp;&nbsp;&nbsp;使用条款</a>
+</footer>
+
+
+<script type="text/javascript" src="../static/statics/js/jquery-3.2.js" th:src="@{/statics/js/jquery-3.2.js}"></script>
+<script type="text/javascript" src="../static/statics/js/session.js" th:src="@{/statics/js/session.js}"></script>
+<script type="text/javascript">
+    $(function(){
+        //菜单特效
+        var index = 0;
+        $("#book-menu-toggle").on("click",function(){
+            if (index ===0 ) {
+                $("#book-menu").css("left","1px");
+                $(this).css("left","178px");
+                index =1;
+            }else{
+                $("#book-menu").css("left","-180px");
+                $(this).css("left","1px");
+                index=0;
+            }
+        });
+
+        //点击菜单，对应类别颜色加深
+        $(".book-class li").on("click",function(){
+            //加粗当前点击的li
+            $(this).css("font-weight","600").siblings("li").css("font-weight","500");
+        });
+    })
+</script>
+</body>
+</html>

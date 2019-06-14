@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" type="text/css" href="../static/statics/css/reset.css"  th:href="@{/statics/css/reset.css}">
+    <link rel="stylesheet" type="text/css" href="../static/statics/css/login.css"  th:href="@{/statics/css/login.css}">
+</head>
+<body>
+<div id="register-container">
+    <h2>欢迎注册</h2>
+    <br />
+    <form>
+        <br>基本信息</br>
+        <input type="text" id="userCode" class="userName" placeholder="账号"><br/>
+        <input type="password" id="userPwd" class="password" placeholder="密码"><br/>
+        <br>个人信息</br>
+        <input type="text" id="userName" class="userName" placeholder="姓名"><br/>
+        <input type="text" id="userAddr" class="userAddr" placeholder="地址"><br/>
+        <input type="text" id="userPhone" class="userPhone" placeholder="电话"><br/>
+
+        <div>
+            <input class="loginBtn" type="button" onclick="submitRegister()" value="注册">
+        </div>
+
+    </form>
+    <p id="errorInfo"></p>
+</div>
+
+<script type="text/javascript" th:src="@{/statics/js/jquery-3.2.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+
+    function submitRegister() {
+        var userCode = $.trim($("#userCode").val());
+        var userPwd = $.trim($("#userPwd").val());
+        var userName = $.trim($("#userName").val());
+        var userAddr = $.trim($("#userAddr").val());
+        var userPhone = $.trim($("#userPhone").val());
+        if (userCode.length == 0 || userPwd.length == 0 || userName.length == 0 || userAddr.length == 0 || userPhone.length == 0) {
+            $('#errorInfo').html("信息不能为空！");
+            return false;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: [[@{/register_do}]],
+            data: {"userCode":userCode,"userPwd":userPwd,"userName":userName,"userAddr":userAddr,"userPhone":userPhone},
+            dataType:"json",
+                success: function(rep){
+                if(rep.status == 0){
+                    alert(rep.message);
+                    location.href = "login";
+                }else{
+                    alert(rep.message);
+                }
+            },
+            error:function(rep){
+                alert("获取信息失败!");
+            }
+        });
+    }
+
+</script>
+</body>
+</html>
