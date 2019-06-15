@@ -61,7 +61,7 @@ public class BookService {
         return bookMapper.lastId();
     }
 
-    public List<Book> getAskBook() {
+    public List<Book> listAskBook() {
         return bookMapper.selectAllAskBooks();
     }
 

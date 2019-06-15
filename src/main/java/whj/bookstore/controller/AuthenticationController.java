@@ -68,21 +68,6 @@ public class AuthenticationController {
         return "home";
     }
 
-    @RequestMapping(value = "/askBookStore")
-    public String askBookStore(Map<String, Object> paramMap) {
-        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
-        paramMap.put("user", user);
-        Map<Category,List<Book>> booksByCategory = bookService.listAllBooksByCategory();
-        List<Book> books = new ArrayList<>();
-        for (List<Book> book : booksByCategory.values()) {
-            for (Book book1 : book) {
-                books.add(book1);
-            }
-        }
-        paramMap.put("books", books);
-        return "askBookStore";
-    }
-
     @RequestMapping(value = "/myBookshelf")
     public String myBookshelf(Map<String, Object> paramMap) {
         User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
@@ -106,6 +91,17 @@ public class AuthenticationController {
         paramMap.put("books", bookList);
         paramMap.put("pageid", pageid);
         return "bookStore";
+    }
+
+    @RequestMapping(value = "/askBookStore/{pageid}")
+    public String askBookStore(@PathVariable int pageid,Map<String, Object> paramMap) {
+        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
+        paramMap.put("user", user);
+        PageHelper.startPage(pageid, 20);
+        List<Book> bookList = bookService.listAskBook();
+        paramMap.put("books", bookList);
+        paramMap.put("pageid", pageid);
+        return "askBookStore";
     }
 
     @RequestMapping(value = "/bookDetail/{bookid}")
