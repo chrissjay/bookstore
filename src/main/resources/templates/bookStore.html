@@ -17,11 +17,11 @@
             <a href="#" th:href="@{/myBookshelf}" class="bookshelf">    我的书架    </a>
             <a href="#" th:href="@{/logout}" class="logout">[ 退 出 ]</a>
         </div> <!-- nav-info -->
-        <form action="searchBook" th:action="@{/searchBook}" method="post">
+        <form action="/searchBooks" th:action="@{'/searchBooks'}" method="get">
             <div class="nav-search">
                 <a href="/home" th:href="@{/home}"><img class="logo" src="../static/statics/img/zju.png" th:src="@{/statics/img/zju.png}"></a>
                 <div class="search-form">
-                    <input id="search-input" name="name" type="search" class="searchIn" placeholder="搜图书...">
+                    <input id="search-input" name="bookName" type="search" class="searchIn" placeholder="搜图书...">
                     <a href="#" class="search-logo">| &nbsp;<img src="../static/statics/img/search.png" th:src="@{/statics/img/search.png}"></a>
                     <button type="submit" id="search-button" class="searchBtn">搜索</button>
                 </div>

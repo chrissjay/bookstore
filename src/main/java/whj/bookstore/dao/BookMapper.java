@@ -158,4 +158,20 @@ public interface BookMapper {
     })
     Integer lastId();
 
+    @Select({
+            "select * from book where name like #{bookName,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="url", property="url", jdbcType=JdbcType.VARCHAR),
+            @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+            @Result(column="author", property="author", jdbcType=JdbcType.VARCHAR),
+            @Result(column="press", property="press", jdbcType=JdbcType.VARCHAR),
+            @Result(column="price", property="price", jdbcType=JdbcType.DOUBLE),
+            @Result(column="cid", property="cid", jdbcType=JdbcType.INTEGER),
+            @Result(column="uid", property="uid", jdbcType=JdbcType.INTEGER),
+            @Result(column="description", property="description", jdbcType=JdbcType.LONGVARCHAR)
+    })
+    List<Book> selectSearchBooks(@Param("bookName") String bookName);
+
 }

@@ -16,11 +16,11 @@
         <a href="#" th:href="@{/myBookshelf}" class="bookshelf">    我的书架    </a>
         <a href="#" th:href="@{/logout}" class="logout">[ 退 出 ]</a>
     </div> <!-- nav-info -->
-    <form action="searchBook" th:action="@{/searchBook}" method="post">
+    <form action="/searchBooks" th:action="@{'/searchBooks'}" method="get">
         <div class="nav-search">
             <a href="/home" th:href="@{/home}"><img class="logo" src="../static/statics/img/zju.png" th:src="@{/statics/img/zju.png}"></a>
             <div class="search-form">
-                <input id="search-input" name="name" type="search" class="searchIn" placeholder="搜图书...">
+                <input id="search-input" name="bookName" type="search" class="searchIn" placeholder="搜图书...">
                 <a href="#" class="search-logo">| &nbsp;<img src="../static/statics/img/search.png" th:src="@{/statics/img/search.png}"></a>
                 <button type="submit" id="search-button" class="searchBtn">搜索</button>
             </div>
@@ -104,34 +104,61 @@
 <script type="text/javascript" src="../static/statics/js/xSlider.js" th:src="@{/statics/js/xSlider.js}"></script>
 <script type="text/javascript" src="../static/statics/js/session.js" th:src="@{/statics/js/session.js}"></script>
 <script type="text/javascript">
-    $(function(){
 
-        $('#search-button').click(function (event) {
-            var keyword = $('#search-input').val();
-            var book_ = {"name":keyword};
-            var jsonData = JSON.stringify(book_);
-            var flag = "";
-            $.ajax({
-                type:"POST",
-                url:"searchBook.do",
-                async:false,
-                dataType:"json",
-                contentType:"application/json;charset=UTF-8",
-                data:jsonData,
-                success:function (msg) {
-                    flag = msg;
+    function search() {
+        var bookName = $.trim($("#bookName").val());
+        if (bookName.length == 0) {
+            $('#errorInfo').html("信息不能为空！");
+            return false;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: [[@{'/bookStore/' + bookName}]],
+            data: {"bookName":bookName},
+            dataType:"json",
+                success: function(rep){
+                if(rep.status == 0){
+                    alert(rep.message);
+                    location.href = "bookStore";
+                }else{
+                    alert(rep.message);
                 }
-            });
-
+            },
+            error:function(rep){
+                alert("获取信息失败!");
+            }
         });
+    }
 
-        $(".book-class li a").on("click",function(){
-            var classId = $(this).prop("title");
-            console.log(classId);
-            var classTop =  $("#container").find(("#"+classId)).offset().top;
-            $("html,body").animate({scrollTop:classTop+ "px"}, 500);
-        });
-    })
+    // $(function(){
+    //
+    //     $('#search-button').click(function (event) {
+    //         var keyword = $('#search-input').val();
+    //         var book_ = {"name":keyword};
+    //         var jsonData = JSON.stringify(book_);
+    //         var flag = "";
+    //         $.ajax({
+    //             type:"POST",
+    //             url:"searchBook.do",
+    //             async:false,
+    //             dataType:"json",
+    //             contentType:"application/json;charset=UTF-8",
+    //             data:jsonData,
+    //             success:function (msg) {
+    //                 flag = msg;
+    //             }
+    //         });
+    //
+    //     });
+    //
+    //     $(".book-class li a").on("click",function(){
+    //         var classId = $(this).prop("title");
+    //         console.log(classId);
+    //         var classTop =  $("#container").find(("#"+classId)).offset().top;
+    //         $("html,body").animate({scrollTop:classTop+ "px"}, 500);
+    //     });
+    // })
 </script>
 
 </body>

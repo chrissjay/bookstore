@@ -65,4 +65,8 @@ public class BookService {
         return bookMapper.selectAllAskBooks();
     }
 
+    public List<Book> searchBook(String bookName) {
+        return bookMapper.selectSearchBooks(bookName);
+    }
+
 }

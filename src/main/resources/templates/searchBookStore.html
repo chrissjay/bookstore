@@ -39,12 +39,12 @@
 <!-- 图书分类 -->
 <div id="container">
     <div id="book-container">
-        <h3 class="book-title"><a href="#">| 所有求书信息</a></h3>
+        <h3 class="book-title"><a href="#">| 所有搜索结果</a></h3>
         <ul class="book-lists">
             <li class="book-list" th:each="book:${books}">
                 <a href="bookDetail.do?id=${book.getId()}" th:href="'bookDetail/'+${book.getId()}" class="book-pic" target="_blank">
                     <img src="../static/statics/img/book-list/article/${book.getBookImage().getId()}.jpg"
-                    th:src="@{'/statics/img/book-list/article/'+${book.getId()}+'.jpg'}">
+                         th:src="@{'/statics/img/book-list/article/'+${book.getId()}+'.jpg'}">
                 </a>
                 <a href="#" class="book-info">
                     <h5 class="book-name" th:text="${book.getName()}">${book.getName()}</h5>
@@ -56,12 +56,6 @@
             </li>
         </ul><!--  book-list end -->
     </div> <!-- book-container end-->
-    <span class="page-btn">
-			<a href="?start=0" class="page-top" th:href="@{'/askBookStore/1'}">首页</a>
-			<a href="?start=${page.getStart()-page.getCount()}" th:href="@{'/askBookStore/'+${pageid-1}}" class="page-pre">上一页</a>
-			<a href="?start=${page.getStart()+page.getCount()}" th:href="@{'/askBookStore/'+${pageid+1}}" class="page-next">下一页</a>
-			<a href="?start=${page.getEnd()}" class="page-end" th:href="@{'/askBookStore/'+'/5'}">尾页</a>
-    </span>
 </div><!-- container end-->
 <footer>
     <a href="#">©2018-2019 二手书交易</a>

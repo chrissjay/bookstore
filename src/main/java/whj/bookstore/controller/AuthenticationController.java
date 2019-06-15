@@ -52,94 +52,31 @@ public class AuthenticationController {
     @Autowired
     UserRoleRService userRoleRService;
 
-    @RequestMapping(value = "/login")
-    public String login() {
-        return "login";
-    }
-
-    @RequestMapping(value = "/home")
-    public String home(Map<String, Object> paramMap) {
-        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
-        paramMap.put("user", user);
-        Map<Integer, String> categoriesByMap = categoryService.listAllCategoriesByMap();
-        Map<Category, List<Book>> booksByCategory = bookService.listAllBooksByCategory();
-        paramMap.put("categories", categoriesByMap);
-        paramMap.put("booksMap", booksByCategory);
-        return "home";
-    }
-
-    @RequestMapping(value = "/myBookshelf")
-    public String myBookshelf(Map<String, Object> paramMap) {
-        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
-        paramMap.put("user", user);
-        List<Book> bookList = bookService.listMySellBooks(user.getId());
-        paramMap.put("askBooks", bookList);
-        paramMap.put("books", bookList);
-        return "myBookshelf";
-    }
-
-    @RequestMapping(value = "/bookStore/{categoryid}/{pageid}")
-    public String bookStore(@PathVariable int categoryid, @PathVariable int pageid,Map<String, Object> paramMap) {
-        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
-        paramMap.put("user", user);
-        List<Category> categoryList = categoryService.getAllCategories();
-        Category category = categoryService.getCategoryById(categoryid);
-        PageHelper.startPage(pageid, 20);
-        List<Book> bookList = bookService.listOneKindOfBooks(categoryid);
-        paramMap.put("categories", categoryList);
-        paramMap.put("category", category);
-        paramMap.put("books", bookList);
-        paramMap.put("pageid", pageid);
-        return "bookStore";
-    }
-
-    @RequestMapping(value = "/askBookStore/{pageid}")
-    public String askBookStore(@PathVariable int pageid,Map<String, Object> paramMap) {
-        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
-        paramMap.put("user", user);
-        PageHelper.startPage(pageid, 20);
-        List<Book> bookList = bookService.listAskBook();
-        paramMap.put("books", bookList);
-        paramMap.put("pageid", pageid);
-        return "askBookStore";
-    }
-
-    @RequestMapping(value = "/bookDetail/{bookid}")
-    public String bookDetail(@PathVariable int bookid, Map<String, Object> paramMap) {
-        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
-        paramMap.put("user", user);
-        Book book = bookService.getBookById(bookid);
-        paramMap.put("book", book);
-        paramMap.put("seller", userService.getUser(book.getUid()));
-        return "bookDetail";
-    }
-
-    @RequestMapping(value = "/upLoadSell")
-    public String upLoadSell(Map<String, Object> paramMap) {
-        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
-        paramMap.put("user", user);
-        List<Category> categories = categoryService.getAllCategories();
-        paramMap.put("categories", categories);
-        return "upLoadSell";
+    @RequestMapping(value = "/register")
+    public String register() {
+        return "register";
     }
 
     @ResponseBody
-    @RequestMapping(value = "/uploadsell_do", produces = "application/json;charset=UTF-8", method = {RequestMethod.POST})
-    public JsonBean upLoadSellDo(HttpServletRequest request) {
-        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
+    @RequestMapping(value = "/register_do", produces = "application/json;charset=UTF-8", method = {RequestMethod.POST})
+    public JsonBean registerDo(HttpServletRequest request) {
         JsonBean reJson = new JsonBean();
         Map paramMap = ParamUtils.handleServletParameter(request);
-        String name = MapUtils.getString(paramMap, "name");
-        String author = MapUtils.getString(paramMap, "author");
-        String press = MapUtils.getString(paramMap, "press");
-        double price = MapUtils.getDoubleValue(paramMap, "price");
-        String description = MapUtils.getString(paramMap, "description");
-        int cid = MapUtils.getIntValue(paramMap, "cid");
-        int uid = user.getId();
-        bookService.upLoadBook(name, author, press, price, cid, uid, description);
+        String userCode = MapUtils.getString(paramMap, "userCode");
+        String userPwd = MD5.next(MapUtils.getString(paramMap, "userPwd"));
+        String userName = MapUtils.getString(paramMap, "userName");
+        String userAddr = MapUtils.getString(paramMap, "userAddr");
+        String userPhone = MapUtils.getString(paramMap, "userPhone");
+        userService.registerUser(userCode, userPwd, userName, userAddr, userPhone);
+        userRoleRService.registerUserRoleR(userCode);
         reJson.setStatus(IConstants.RESULT_INT_SUCCESS);
-        reJson.setMessage("上传成功");
+        reJson.setMessage("注册成功");
         return reJson;
+    }
+
+    @RequestMapping(value = "/login")
+    public String login() {
+        return "login";
     }
 
     @ResponseBody
@@ -181,29 +118,35 @@ public class AuthenticationController {
         return reJson;
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/register_do", produces = "application/json;charset=UTF-8", method = {RequestMethod.POST})
-    public JsonBean registerDo(HttpServletRequest request) {
-        JsonBean reJson = new JsonBean();
-        Map paramMap = ParamUtils.handleServletParameter(request);
-        String userCode = MapUtils.getString(paramMap, "userCode");
-        String userPwd = MD5.next(MapUtils.getString(paramMap, "userPwd"));
-        String userName = MapUtils.getString(paramMap, "userName");
-        String userAddr = MapUtils.getString(paramMap, "userAddr");
-        String userPhone = MapUtils.getString(paramMap, "userPhone");
-        userService.registerUser(userCode, userPwd, userName, userAddr, userPhone);
-        userRoleRService.registerUserRoleR(userCode);
-        reJson.setStatus(IConstants.RESULT_INT_SUCCESS);
-        reJson.setMessage("注册成功");
-        return reJson;
+    @RequestMapping(value = "/home")
+    public String home(Map<String, Object> paramMap) {
+        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
+        paramMap.put("user", user);
+        Map<Integer, String> categoriesByMap = categoryService.listAllCategoriesByMap();
+        Map<Category, List<Book>> booksByCategory = bookService.listAllBooksByCategory();
+        paramMap.put("categories", categoriesByMap);
+        paramMap.put("booksMap", booksByCategory);
+        return "home";
     }
 
-    @RequestMapping(value = "/register")
-    public String register() {
-        return "register";
+    @RequestMapping(value = "/myBookshelf")
+    public String myBookshelf(Map<String, Object> paramMap) {
+        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
+        paramMap.put("user", user);
+        List<Book> bookList = bookService.listMySellBooks(user.getId());
+        paramMap.put("askBooks", bookList);
+        paramMap.put("books", bookList);
+        return "myBookshelf";
     }
 
-
+    @RequestMapping(value = "/upLoadSell")
+    public String upLoadSell(Map<String, Object> paramMap) {
+        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
+        paramMap.put("user", user);
+        List<Category> categories = categoryService.getAllCategories();
+        paramMap.put("categories", categories);
+        return "upLoadSell";
+    }
 
     @ResponseBody
     @RequestMapping(value = "/upLoadImg", method = {RequestMethod.POST})
@@ -231,5 +174,68 @@ public class AuthenticationController {
         return reJson;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/uploadsell_do", produces = "application/json;charset=UTF-8", method = {RequestMethod.POST})
+    public JsonBean upLoadSellDo(HttpServletRequest request) {
+        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
+        JsonBean reJson = new JsonBean();
+        Map paramMap = ParamUtils.handleServletParameter(request);
+        String name = MapUtils.getString(paramMap, "name");
+        String author = MapUtils.getString(paramMap, "author");
+        String press = MapUtils.getString(paramMap, "press");
+        double price = MapUtils.getDoubleValue(paramMap, "price");
+        String description = MapUtils.getString(paramMap, "description");
+        int cid = MapUtils.getIntValue(paramMap, "cid");
+        int uid = user.getId();
+        bookService.upLoadBook(name, author, press, price, cid, uid, description);
+        reJson.setStatus(IConstants.RESULT_INT_SUCCESS);
+        reJson.setMessage("上传成功");
+        return reJson;
+    }
+
+    @RequestMapping(value = "/bookStore/{categoryid}/{pageid}")
+    public String bookStore(@PathVariable int categoryid, @PathVariable int pageid,Map<String, Object> paramMap) {
+        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
+        paramMap.put("user", user);
+        List<Category> categoryList = categoryService.getAllCategories();
+        Category category = categoryService.getCategoryById(categoryid);
+        PageHelper.startPage(pageid, 20);
+        List<Book> bookList = bookService.listOneKindOfBooks(categoryid);
+        paramMap.put("categories", categoryList);
+        paramMap.put("category", category);
+        paramMap.put("books", bookList);
+        paramMap.put("pageid", pageid);
+        return "bookStore";
+    }
+
+    @RequestMapping(value = "/searchBooks")
+    public String searchBookStore(String bookName, Map<String, Object> paramMap) {
+        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
+        paramMap.put("user", user);
+        List<Book> books = bookService.searchBook('%' + bookName + '%');
+        paramMap.put("books", books);
+        return "searchBookStore";
+    }
+
+    @RequestMapping(value = "/askBookStore/{pageid}")
+    public String askBookStore(@PathVariable int pageid,Map<String, Object> paramMap) {
+        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
+        paramMap.put("user", user);
+        PageHelper.startPage(pageid, 20);
+        List<Book> bookList = bookService.listAskBook();
+        paramMap.put("books", bookList);
+        paramMap.put("pageid", pageid);
+        return "askBookStore";
+    }
+
+    @RequestMapping(value = "/bookDetail/{bookid}")
+    public String bookDetail(@PathVariable int bookid, Map<String, Object> paramMap) {
+        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
+        paramMap.put("user", user);
+        Book book = bookService.getBookById(bookid);
+        paramMap.put("book", book);
+        paramMap.put("seller", userService.getUser(book.getUid()));
+        return "bookDetail";
+    }
 
 }
