@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import whj.bookstore.common.IConstants;
@@ -136,6 +137,8 @@ public class AuthenticationController {
         int cid = MapUtils.getIntValue(paramMap, "cid");
         int uid = user.getId();
         bookService.upLoadBook(name, author, press, price, cid, uid, description);
+        reJson.setStatus(IConstants.RESULT_INT_SUCCESS);
+        reJson.setMessage("上传成功");
         return reJson;
     }
 
@@ -213,14 +216,18 @@ public class AuthenticationController {
         String imgName = bookService.lastId()+1 + ".jpg";
         try{
             byte[] bytes = uploadfile.getBytes();
-            Path path = Paths.get("/Users/chriswu/JavaPj/bookstore/src/main/resources/static/statics/img/book-list/article/" + imgName);
+            String rootPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
+            Path path = Paths.get(rootPath + "static/statics/img/book-list/article/" + imgName);
             Files.write(path, bytes);
+            String sourcePath = rootPath.replaceAll("classes/", "").replaceAll("target/", "");
+            Path newPath = Paths.get(sourcePath + "src/main/resources/static/statics/img/book-list/article/" + imgName);
+            Files.write(newPath, bytes);
         }
         catch (IOException e) {
             return null;
         }
         reJson.setStatus(IConstants.RESULT_INT_SUCCESS);
-        reJson.setMessage("上传成功");
+        reJson.setMessage("上传图片成功");
         return reJson;
     }
 
