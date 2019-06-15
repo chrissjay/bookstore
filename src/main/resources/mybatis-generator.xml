@@ -1,51 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE generatorConfiguration
-        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
-        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
-<generatorConfiguration>
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE generatorConfiguration-->
+<!--        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"-->
+<!--        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">-->
+<!--<generatorConfiguration>-->
 
-    <context id="DB2Tables"    targetRuntime="MyBatis3">
-        <commentGenerator>
-            <property name="suppressDate" value="true"/>
-            <property name="suppressAllComments" value="true"/>
-        </commentGenerator>
-        <!--数据库链接地址账号密码-->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/bookstore?useUnicode=true"
-                        userId="root"
-                        password="4655893">
-        </jdbcConnection>
-        <javaTypeResolver>
-            <property name="forceBigDecimals" value="false"/>
-        </javaTypeResolver>
-        <!--生成Model类存放位置-->
-        <javaModelGenerator targetPackage="whj.bookstore.model" targetProject="src/main/java">
-            <property name="enableSubPackages" value="true"/>
-            <property name="trimStrings" value="true"/>
-        </javaModelGenerator>
-        <!--生成映射文件存放位置-->
-        <sqlMapGenerator targetPackage="whj.bookstore.mapper" targetProject="src/main/java">
-            <property name="enableSubPackages" value="false"/>
-        </sqlMapGenerator>
-        <!--生成Dao类存放位置-->
-        <!-- 客户端代码，生成易于使用的针对Model对象和XML配置文件 的代码
-                type="ANNOTATEDMAPPER",生成Java Model 和基于注解的Mapper对象
-                type="MIXEDMAPPER",生成基于注解的Java Model 和相应的Mapper对象
-                type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口
-        -->
-        <javaClientGenerator type="ANNOTATEDMAPPER" targetPackage="whj.bookstore.dao" targetProject="src/main/java">
-            <property name="enableSubPackages" value="true"/>
-        </javaClientGenerator>
-        <!--生成对应表及类名-->
-<!--        <table tableName="book" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"-->
-<!--               enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="category" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"-->
-<!--               enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="role" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"-->
-<!--               enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <table tableName="user" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" selectByExampleQueryId="false"></table>
-<!--        <table tableName="user_role_r" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"-->
-<!--               enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-    </context>
-</generatorConfiguration>
+<!--    <context id="DB2Tables"    targetRuntime="MyBatis3">-->
+<!--        <commentGenerator>-->
+<!--            <property name="suppressDate" value="true"/>-->
+<!--            <property name="suppressAllComments" value="true"/>-->
+<!--        </commentGenerator>-->
+<!--        &lt;!&ndash;数据库链接地址账号密码&ndash;&gt;-->
+<!--        <jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+<!--                        connectionURL="jdbc:mysql://localhost:3306/bookstore?useUnicode=true"-->
+<!--                        userId="root"-->
+<!--                        password="4655893">-->
+<!--        </jdbcConnection>-->
+<!--        <javaTypeResolver>-->
+<!--            <property name="forceBigDecimals" value="false"/>-->
+<!--        </javaTypeResolver>-->
+<!--        &lt;!&ndash;生成Model类存放位置&ndash;&gt;-->
+<!--        <javaModelGenerator targetPackage="whj.bookstore.model" targetProject="src/main/java">-->
+<!--            <property name="enableSubPackages" value="true"/>-->
+<!--            <property name="trimStrings" value="true"/>-->
+<!--        </javaModelGenerator>-->
+<!--        &lt;!&ndash;生成映射文件存放位置&ndash;&gt;-->
+<!--        <sqlMapGenerator targetPackage="whj.bookstore.mapper" targetProject="src/main/java">-->
+<!--            <property name="enableSubPackages" value="false"/>-->
+<!--        </sqlMapGenerator>-->
+<!--        &lt;!&ndash;生成Dao类存放位置&ndash;&gt;-->
+<!--        &lt;!&ndash; 客户端代码，生成易于使用的针对Model对象和XML配置文件 的代码-->
+<!--                type="ANNOTATEDMAPPER",生成Java Model 和基于注解的Mapper对象-->
+<!--                type="MIXEDMAPPER",生成基于注解的Java Model 和相应的Mapper对象-->
+<!--                type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口-->
+<!--        &ndash;&gt;-->
+<!--        <javaClientGenerator type="ANNOTATEDMAPPER" targetPackage="whj.bookstore.dao" targetProject="src/main/java">-->
+<!--            <property name="enableSubPackages" value="true"/>-->
+<!--        </javaClientGenerator>-->
+<!--        &lt;!&ndash;生成对应表及类名&ndash;&gt;-->
+<!--&lt;!&ndash;        <table tableName="book" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"&ndash;&gt;-->
+<!--&lt;!&ndash;               enableSelectByExample="false" selectByExampleQueryId="false"></table>&ndash;&gt;-->
+<!--&lt;!&ndash;        <table tableName="category" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"&ndash;&gt;-->
+<!--&lt;!&ndash;               enableSelectByExample="false" selectByExampleQueryId="false"></table>&ndash;&gt;-->
+<!--&lt;!&ndash;        <table tableName="role" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"&ndash;&gt;-->
+<!--&lt;!&ndash;               enableSelectByExample="false" selectByExampleQueryId="false"></table>&ndash;&gt;-->
+<!--&lt;!&ndash;        <table tableName="user" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"&ndash;&gt;-->
+<!--&lt;!&ndash;               enableSelectByExample="false" selectByExampleQueryId="false"></table>&ndash;&gt;-->
+<!--&lt;!&ndash;        <table tableName="user_role_r" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"&ndash;&gt;-->
+<!--&lt;!&ndash;               enableSelectByExample="false" selectByExampleQueryId="false"></table>&ndash;&gt;-->
+<!--    </context>-->
+<!--</generatorConfiguration>-->
