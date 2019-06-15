@@ -54,7 +54,7 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/login")
     public String login() {
-        return "/login";
+        return "login";
     }
 
     @RequestMapping(value = "/home")
@@ -65,7 +65,7 @@ public class AuthenticationController {
         Map<Category, List<Book>> booksByCategory = bookService.listAllBooksByCategory();
         paramMap.put("categories", categoriesByMap);
         paramMap.put("booksMap", booksByCategory);
-        return "/home";
+        return "home";
     }
 
     @RequestMapping(value = "/askBookStore")
@@ -80,7 +80,7 @@ public class AuthenticationController {
             }
         }
         paramMap.put("books", books);
-        return "/askBookStore";
+        return "askBookStore";
     }
 
     @RequestMapping(value = "/myBookshelf")
@@ -90,7 +90,7 @@ public class AuthenticationController {
         List<Book> bookList = bookService.listMySellBooks(user.getId());
         paramMap.put("askBooks", bookList);
         paramMap.put("books", bookList);
-        return "/myBookshelf";
+        return "myBookshelf";
     }
 
     @RequestMapping(value = "/bookStore/{categoryid}/{pageid}")
@@ -105,7 +105,7 @@ public class AuthenticationController {
         paramMap.put("category", category);
         paramMap.put("books", bookList);
         paramMap.put("pageid", pageid);
-        return "/bookStore";
+        return "bookStore";
     }
 
     @RequestMapping(value = "/bookDetail/{bookid}")
@@ -115,7 +115,7 @@ public class AuthenticationController {
         Book book = bookService.getBookById(bookid);
         paramMap.put("book", book);
         paramMap.put("seller", userService.getUser(book.getUid()));
-        return "/bookDetail";
+        return "bookDetail";
     }
 
     @RequestMapping(value = "/upLoadSell")
@@ -124,7 +124,7 @@ public class AuthenticationController {
         paramMap.put("user", user);
         List<Category> categories = categoryService.getAllCategories();
         paramMap.put("categories", categories);
-        return "/upLoadSell";
+        return "upLoadSell";
     }
 
     @ResponseBody
@@ -202,7 +202,7 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/register")
     public String register() {
-        return "/register";
+        return "register";
     }
 
 
