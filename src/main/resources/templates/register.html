@@ -41,6 +41,11 @@
             $('#errorInfo').html("信息不能为空！");
             return false;
         }
+        if (userCode.length < 6 || userPwd.length < 6) {
+            $('#errorInfo').html("账号或者密码太简单！");
+            return false;
+        }
+
 
         $.ajax({
             type: 'POST',
