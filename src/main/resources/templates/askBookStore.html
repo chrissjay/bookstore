@@ -12,7 +12,7 @@
     <nav class="navbar">
         <div class="nav-info">
             <a class="userName">
-                您好：<span th:text="${name}">名字</span>
+                您好：<span th:text="${user.getUserName()}">名字</span>
             </a>
             <a href="#" th:href="@{/myBookshelf}" class="bookshelf">    我的书架    </a>
             <a href="#" th:href="@{/logout}" class="logout">[ 退 出 ]</a>
@@ -41,16 +41,16 @@
     <div id="book-container">
         <h3 class="book-title"><a href="#">| 所有求书信息</a></h3>
         <ul class="book-lists">
-            <li class="book-list" th:each="book:${books}">
-                <a href="bookDetail.do?id=${book.getId()}" th:href="'bookDetail/'+${book.getId()}" class="book-pic" target="_blank">
-                    <img src="../static/statics/img/book-list/article/${book.getBookImage().getId()}.jpg"
-                    th:src="@{'/statics/img/book-list/article/'+${book.getId()}+'.jpg'}">
+            <li class="book-list" th:each="book : ${books}">
+                <a href="/bookDetail.do?id=${book.getId()}" th:href="'/bookDetail/'+${book.getId()}" class="book-pic" target="_blank">
+                    <img src="../static/statics/img/book-list/article/${book.getBookimage().getId()}.jpg"
+                         th:src="@{'/statics/img/book-list/article/' + ${book.getId()} +'.jpg'}">
                 </a>
                 <a href="#" class="book-info">
                     <h5 class="book-name" th:text="${book.getName()}">${book.getName()}</h5>
                     <span class="book-detail" th:text="${book.getDescription()}">${book.getDescription()}</span>
                 </a>
-                <span class="book-price" th:text="${book.getPrice()}+'￥'">￥${book.getPrice()}
+                <span class="book-price" th:text="${book.getPrice()} + '¥'">￥${book.getPrice()}
 						<a href="#" class="book-buy">立即下单</a>
                 </span>
             </li>

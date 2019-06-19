@@ -3,7 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>求书区</title>
+    <title>搜索结果</title>
     <link rel="stylesheet" type="text/css" href="../static/statics/css/book.css" th:href="@{/statics/css/book.css}">
 </head>
 <body>
@@ -12,11 +12,12 @@
     <nav class="navbar">
         <div class="nav-info">
             <a class="userName">
-                您好：<span th:text="${name}">名字</span>
+                您好：<span th:text="${user.getUserName()}">名字</span>
             </a>
             <a href="#" th:href="@{/myBookshelf}" class="bookshelf">    我的书架    </a>
             <a href="#" th:href="@{/logout}" class="logout">[ 退 出 ]</a>
-        </div> <!-- nav-info -->
+        </div> <!-- nav-info-end -->
+
         <form action="/searchBooks" th:action="@{'/searchBooks'}" method="get">
             <div class="nav-search">
                 <a href="/home" th:href="@{/home}"><img class="logo" src="../static/statics/img/zju.png" th:src="@{/statics/img/zju.png}"></a>
@@ -42,7 +43,7 @@
         <h3 class="book-title"><a href="#">| 所有搜索结果</a></h3>
         <ul class="book-lists">
             <li class="book-list" th:each="book:${books}">
-                <a href="bookDetail.do?id=${book.getId()}" th:href="'bookDetail/'+${book.getId()}" class="book-pic" target="_blank">
+                <a href="/bookDetail.do?id=${book.getId()}" th:href="'/bookDetail/'+${book.getId()}" class="book-pic" target="_blank">
                     <img src="../static/statics/img/book-list/article/${book.getBookImage().getId()}.jpg"
                          th:src="@{'/statics/img/book-list/article/'+${book.getId()}+'.jpg'}">
                 </a>
