@@ -238,4 +238,13 @@ public class AuthenticationController {
         return "bookDetail";
     }
 
+//    @RequestMapping(value = "/message")
+//    public String message(Map<String, Object> paramMap) {
+//        User user = userService.getNowUser(SecurityUtils.getSubject().getPrincipal().toString());
+//        paramMap.put("user", user);
+//
+//        paramMap.put("seller", userService.getUser(book.getUid()));
+//        return "bookDetail";
+//    }
+
 }

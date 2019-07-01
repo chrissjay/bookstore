@@ -3,7 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>求书区</title>
+    <title>消息区</title>
     <link rel="stylesheet" type="text/css" href="../static/statics/css/book.css" th:href="@{/statics/css/book.css}">
 </head>
 <body>
@@ -29,8 +29,8 @@
         </form>
         <ul class="menu">
             <li><a class="active" href="home" th:href="@{/home}">首页</a></li>
-            <li><a href="/bookStore" th:href="@{/bookStore/1/1}">书籍良品</a></li>
-            <li><a href="/askBookStore" th:href="@{/askBookStore/1}">求书区</a></li>
+            <li><a href="bookStore" th:href="@{/bookStore/1/1}">书籍良品</a></li>
+            <li><a href="askBookStore" th:href="@{/askBookStore/1}">求书区</a></li>
             <li><a href="/message" th:href="@{/message}">我的消息</a></li>
         </ul>
     </nav>
@@ -39,7 +39,7 @@
 <!-- 图书分类 -->
 <div id="container">
     <div id="book-container">
-        <h3 class="book-title"><a href="#">| 所有求书信息</a></h3>
+        <h3 class="book-title"><a href="#">| 所有消息</a></h3>
         <ul class="book-lists">
             <li class="book-list" th:each="book : ${books}">
                 <a href="/bookDetail.do?id=${book.getId()}" th:href="'/bookDetail/'+${book.getId()}" class="book-pic" target="_blank">
@@ -56,12 +56,6 @@
             </li>
         </ul><!--  book-list end -->
     </div> <!-- book-container end-->
-    <span class="page-btn">
-			<a href="?start=0" class="page-top" th:href="@{'/askBookStore/1'}">首页</a>
-			<a href="?start=${page.getStart()-page.getCount()}" th:href="@{'/askBookStore/'+${pageid-1}}" class="page-pre">上一页</a>
-			<a href="?start=${page.getStart()+page.getCount()}" th:href="@{'/askBookStore/'+${pageid+1}}" class="page-next">下一页</a>
-			<a href="?start=${page.getEnd()}" class="page-end" th:href="@{'/askBookStore/'+'/5'}">尾页</a>
-    </span>
 </div><!-- container end-->
 <footer>
     <a href="#">©2018-2019 二手书交易</a>
